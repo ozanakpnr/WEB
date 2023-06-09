@@ -5,13 +5,14 @@
 
 //HTML ELEMENT TANIMLAMALARI
 const polygon= document.createElementNS("http://www.w3.org/2000/svg","polygon");
-var rectangle = document.createElement('div');
+var pLabel = document.createElement('p');
 
 //HTML MEVCUT ELEMENTLER
 const svg = document.getElementById("svgDrawing");
 const canvas = document.getElementById("canvasDiv");
 const subDiv = document.getElementById("subDiv");
 const fileRatioSelector = document.getElementById("fileRatio");
+const cboxLabel=document.getElementById("cboxLabel");
 
 //VARIABLES
 
@@ -24,11 +25,29 @@ let fileName="";
 let cutInfo=[]; //CUT FILE SPLITTED 
 let Coords=[]; 
 let polyCoords =[];
+let lblInfo = [];
 
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change",function(){
     ratio = fileRatioSelector.value;
 })
+
+//ETİKET BİLGİSİ SWITCH
+cboxLabel.addEventListener("change",function(){
+    let lblDivs=document.querySelectorAll(".lblElement");
+    if (cboxLabel.checked) {
+        lblDivs.forEach(function(element){
+            element.style.display="inline";
+        })
+    }else{
+        lblDivs.forEach(function(element){
+            element.style.display="none";
+        })
+    }
+    
+
+   
+});
 
 //PASTAL FARE TEKERLEĞİ İLE YAKINLAŞMA
 let scale =1;
@@ -65,6 +84,8 @@ function SelectFile(){
     Coords=[];
     lblCoords=[];
     polyCoords=[];
+    lblInfo = [];
+
     
     //SANAL INTPUT OLUŞTUR VE ONCHANGE EVENTİ İLE DOSYAYI YAKALA
     let input = document.createElement("input");
@@ -106,12 +127,13 @@ function DrawPolies(file){
       document.getElementById("markerLength").innerHTML="Length: "+(xmax*ratio).toFixed(2)+" mm";
       document.getElementById("markerWidth").innerHTML="Width: "+(ymax*ratio).toFixed(2)+" mm";
 
-
+        //Boyutlandırma oranı
         //const scaleRatio = canvas.height/ymax;
         const scaleRatio = svg.height.animVal.value/ymax;
-        
         svg.style.width=xmax*scaleRatio;
-polyCoords.forEach(element => {
+
+        //Scaled 
+       polyCoords.forEach(element => {
     for (let index = 0; index < element.length; index++) {
         const x = parseInt(element[index][0]);
         const y = parseInt(element[index][1]);
@@ -149,12 +171,16 @@ polyCoords.forEach(element => {
             })
             //ETIKET BİLGİSİ VAR İSE KARELERI OLUŞTUR
             if (lblCoords.length!=0) {
-                const rect = rectangle.cloneNode(true);
-            subDiv.appendChild(rect);
-            rect.classList.add("lblElement");
-            rect.style.zIndex=10;
-            rect.style.top=lblCoords[i][1]*scaleRatio+"px";
-            rect.style.left=lblCoords[i][0]*scaleRatio+"px";
+                const p = pLabel.cloneNode(true);
+            subDiv.appendChild(p);
+            p.classList.add("lblElement");
+            p.innerHTML="<pre>" + lblInfo[i].replace(/ /g, "\n") + "</pre>";
+            p.style.zIndex=2;
+            p.style.top=lblCoords[i][1]*scaleRatio+"px";
+            p.style.left=lblCoords[i][0]*scaleRatio+"px";
+            if (cboxLabel.checked) {
+                p.style.display="inline";
+            }else{p.style.display="none";}
             }
             
             //ctx.closePath();        
@@ -191,7 +217,7 @@ function processCutFile()
               } 
               //ETIKET BILGISI VAR
               else{
-                 let lblInfo=cutInfo[k+1].split(" ");
+                   lblInfo.push(cutInfo[k+1]);
                  if (cutInfo[k].includes("X")&&cutInfo[k].includes("Y")) {
                     let lblx=(cutInfo[k].split("Y")[0]).split("X")[1];
                     let lbly=(cutInfo[k].split("Y")[1].split("M")[0]);

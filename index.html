@@ -11,18 +11,28 @@
 <div class="container">
     <div class="gridMain">
     <div class="divLeft">
-        <button class="btnSelect" onclick="SelectFile()" type="button">Select File</button>
-        <button class="btnSelect"  type="button">Add splice point</button>
-        <button class="btnSelect"  type="button">Remove splice point</button>
-        <div>
-            <h5 style="font-size: 1.2rem;">File Ratio:</h5>
+       <img src="/Images/ozbilim-splash.png" style="position: relative; margin:auto; width: 70%; ">
+        <button id="btnSelect" onclick="SelectFile()" type="button">Select File</button>
+        <h5 id="cboxFileRatio" style="font-size: 1.2rem; margin-top: 30px; margin-bottom: 0;">File Ratio:</h5>
         <select id="fileRatio">
             <option value="0.1">0.1</option>
             <option value="0.254">0.254</option>
             <option value="0.01">0.01</option>
             <option value="0.0254">0.0254</option>
         </select>
-    </div>
+   
+       
+   <div  class="toggle-container">
+    <p style="font-family: sans-serif; margin-right: 20px;">Etiket Bilgisi</p>
+       <label class="toggle-switch" >
+       <input id="cboxLabel" type="checkbox">
+       <span class="toggle-slider"></span>
+    </label>
+</div>
+            <button id="btnAddSplice"  type="button">Add splice point</button>
+            <button id="btnRemoveSplice"  type="button">Remove splice point</button>
+   
+    
     </div>
     <div class="divRight">
     <div class="grid-container">

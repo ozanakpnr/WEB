@@ -160,6 +160,7 @@ function DrawPolies(file){
             const poly = polygon.cloneNode(true);
             svg.appendChild(poly);
             poly.setAttribute("points",polyPoints);
+        
             poly.addEventListener("click",function(evt){
                 const selectedPoly = evt.target;
                 if (selectedPoly.style.fill==="green") {

@@ -220,3 +220,4 @@ font-weight: 600;
   .toggle-container .toggle-switch input[type="checkbox"]:checked + .toggle-slider {
     transform: translateX(30px);
   }
+  

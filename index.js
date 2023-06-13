@@ -13,6 +13,8 @@ const canvas = document.getElementById("canvasDiv");
 const subDiv = document.getElementById("subDiv");
 const fileRatioSelector = document.getElementById("fileRatio");
 const cboxLabel=document.getElementById("cboxLabel");
+const cboxFlipX = document.getElementById("cboxFlipX");
+const cboxFlipY = document.getElementById("cboxFlipY");
 
 //VARIABLES
 
@@ -31,7 +33,36 @@ let lblInfo = [];
 fileRatioSelector.addEventListener("change",function(){
     ratio = fileRatioSelector.value;
 })
-
+// X DÖNDÜR
+cboxFlipX.addEventListener("change",()=>{
+    if (cboxFlipX.checked) {
+        svg.style.transform = "scaleX(-1)";
+        svg.style.msTransform = "scaleX(-1)";
+        svg.style.OTransform = "scaleX(-1)";
+        svg.style.MozTransform = "scaleX(-1)";
+    }else{
+        svg.style.transform = "scaleX(1)";
+        svg.style.msTransform = "scaleX(1)";
+        svg.style.OTransform = "scaleX(1)";
+        svg.style.MozTransform = "scaleX(1)";
+    }
+ 
+});
+//Y Döndür
+cboxFlipY.addEventListener("change",()=>{
+    if (cboxFlipY.checked) {
+        svg.style.transform = "scaleY(-1)";
+        svg.style.msTransform = "scaleY(-1)";
+        svg.style.OTransform = "scaleY(-1)";
+        svg.style.MozTransform = "scaleY(-1)";
+    }else{
+        svg.style.transform = "scaleY(1)";
+        svg.style.msTransform = "scaleY(1)";
+        svg.style.OTransform = "scaleY(1)";
+        svg.style.MozTransform = "scaleY(1)";
+    }
+   
+});
 //ETİKET BİLGİSİ SWITCH
 cboxLabel.addEventListener("change",function(){
     let lblDivs=document.querySelectorAll(".lblElement");
@@ -106,9 +137,9 @@ function DrawPolies(file){
     
     reader.onload=function(evt){
        const rawFileContent =evt.target.result;
-       const fileContent = rawFileContent.replace(/[\\r\n]/g,"");
+       const fileContent = rawFileContent.replace(/[\r\n]/g,"");
      cutInfo= fileContent.split("*");
-       console.log(cutInfo);
+     
 
        ProcessCutFile();
         
@@ -198,14 +229,14 @@ function DrawPolies(file){
 }
 
 function ProcessCutFile(){
-    const startIndex = cutInfo.indexOf("N1");
-    for (i=startIndex; cutInfo[i]!="M0"; i++) {
-     if (cutInfo[i].startsWith("N")) {
+    //const startIndex = cutInfo.indexOf("N1");
+    for (i=0; cutInfo[i]!="M0"; i++) {
+     if (cutInfo[i].startsWith("N")&&(cutInfo[i].length<4)) {
     
-        for(let k=i+1; (!cutInfo[k].startsWith("N"))&&(cutInfo[k]!="M0");k++) {
+       for(let k=i+1; (!cutInfo[k].startsWith("N"))&&(cutInfo[k]!="M0");k++) {
                //POLYGON KOORDİNATLARI
             if (cutInfo[k]==="M14") {
-            let j =k+1;
+              let j =k+1;
             while ((cutInfo[j]!=="M15")) {
               if ((cutInfo[j].startsWith("X")||cutInfo[j].startsWith("Q"))&&(!cutInfo[j].includes("M31"))) {
                 let x = (cutInfo[j].split("Y")[0]).split("X")[1];
@@ -219,9 +250,7 @@ function ProcessCutFile(){
                }
                 j++;
             }
-
                 }
-               
                }
                polyCoords.push(Coords);
                Coords=[];

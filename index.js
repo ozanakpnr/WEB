@@ -102,14 +102,15 @@ input.click();
 function DrawPolies(file){
 
     var reader = new FileReader();
-    var selectedFile= reader.readAsText(file,"UTF-8");
+    var selectedFile= reader.readAsText(file);
     
     reader.onload=function(evt){
        const rawFileContent =evt.target.result;
-       const fileContent = rawFileContent.replace(/[\r\n]/g,"");
-       cutInfo= fileContent.split("*");
-        processCutFile();
+       const fileContent = rawFileContent.replace(/[\\r\n]/g,"");
+     cutInfo= fileContent.split("*");
+       console.log(cutInfo);
 
+       ProcessCutFile();
         
       //xmax ve ymax bul
       polyCoords.forEach(element => {
@@ -160,7 +161,7 @@ function DrawPolies(file){
             const poly = polygon.cloneNode(true);
             svg.appendChild(poly);
             poly.setAttribute("points",polyPoints);
-        
+          
             poly.addEventListener("click",function(evt){
                 const selectedPoly = evt.target;
                 if (selectedPoly.style.fill==="green") {
@@ -196,44 +197,49 @@ function DrawPolies(file){
   
 }
 
-function processCutFile()
-{
+function ProcessCutFile(){
     const startIndex = cutInfo.indexOf("N1");
-    for (i=startIndex; (cutInfo[i]!="M0")&&(i<cutInfo.length); i++) {
+    for (i=startIndex; cutInfo[i]!="M0"; i++) {
      if (cutInfo[i].startsWith("N")) {
-         let k=i+1;
-         for (k; ((!cutInfo[k].startsWith("N"))&&(cutInfo[k]!="M0")&&(k+1<cutInfo.length)); k++) {
-             //ETIKET BİLGİSİ YOK
-             if (!cutInfo[k].includes("M31")) {
-          
-                 if (cutInfo[k].startsWith("X")||cutInfo[k].startsWith("Q")) {
-                     if ((!cutInfo[k-1].startsWith("M"))||(!cutInfo[k+1].startsWith("M"))) {
-                         let x = (cutInfo[k].split("Y")[0]).split("X")[1];
-                         let y = (cutInfo[k].split("Y")[1]);
-                         let actCoord = [x,y];
-                          Coords.push(actCoord);
-                     }
-                   
-                  } 
-              } 
-              //ETIKET BILGISI VAR
-              else{
-                   lblInfo.push(cutInfo[k+1]);
-                 if (cutInfo[k].includes("X")&&cutInfo[k].includes("Y")) {
-                    let lblx=(cutInfo[k].split("Y")[0]).split("X")[1];
-                    let lbly=(cutInfo[k].split("Y")[1].split("M")[0]);
-                    let lblCoord = [lblx,lbly];
-                    lblCoords.push(lblCoord);
-                 }
-             
-              }
-          }
-         
-          polyCoords.push(Coords);
-       Coords=[];
     
+        for(let k=i+1; (!cutInfo[k].startsWith("N"))&&(cutInfo[k]!="M0");k++) {
+               //POLYGON KOORDİNATLARI
+            if (cutInfo[k]==="M14") {
+            let j =k+1;
+            while ((cutInfo[j]!=="M15")) {
+              if ((cutInfo[j].startsWith("X")||cutInfo[j].startsWith("Q"))&&(!cutInfo[j].includes("M31"))) {
+                let x = (cutInfo[j].split("Y")[0]).split("X")[1];
+                let y = (cutInfo[j].split("Y")[1]);
+                let actCoord = [x,y];
+                 Coords.push(actCoord);      
+              }
+                     
+               if (cutInfo[j]==="M0") {
+                break;
+               }
+                j++;
+            }
+
+                }
+               
+               }
+               polyCoords.push(Coords);
+               Coords=[];
+        }
+        
+        
+         //ETIKET BILGISI VAR
+         if(cutInfo[i].includes("M31")){
+              lblInfo.push(cutInfo[i+1]);
+            if (cutInfo[i].includes("X")&&cutInfo[i].includes("Y")) {
+               let lblx=(cutInfo[i].split("Y")[0]).split("X")[1];
+               let lbly=(cutInfo[i].split("Y")[1].split("M")[0]);
+               let lblCoord = [lblx,lbly];
+               lblCoords.push(lblCoord);
+            }
+        
+         }
      }
-     }
-}
+    }
 
 

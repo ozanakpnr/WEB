@@ -36,8 +36,7 @@ let Coords = [];
 let polyCoords = [];
 let lblInfo = [];
 let rects = [];
-let spreadingPoints= [];
-let cutpoints= [];
+
 
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change", function () {
@@ -84,7 +83,7 @@ cboxLabel.addEventListener("change", function () {
 });
 
 //PASTAL FARE TEKERLEĞİ İLE YAKINLAŞMA
-let scale = 1;
+var scale = 1;
 subDiv.style.scale = 1;
 canvas.addEventListener("mousewheel", function (event) {
   event.preventDefault();
@@ -110,15 +109,19 @@ function SelectFile() {
   subDiv.style.scale = 1;
 
   //DEĞİŞKENLERİ SIFIRLA
+  filecontent = "";
   xmax = 0;
   ymax = 0;
   polyPoints = "";
   lblPoints = "";
+fileName = "";
   cutInfo = [];
   Coords = [];
   lblCoords = [];
   polyCoords = [];
   lblInfo = [];
+  rects = [];
+
 
   //SANAL INTPUT OLUŞTUR VE ONCHANGE EVENTİ İLE DOSYAYI YAKALA
   let input = document.createElement("input");
@@ -168,6 +171,7 @@ function DrawPolies(file) {
     svg.style.width = xmax * scaleRatio;
 
     //Scaled
+    const unscaledPolyCoords=polyCoords;
     polyCoords.forEach((element) => {
       for (let index = 0; index < element.length; index++) {
         const x = parseInt(element[index][0]);
@@ -351,32 +355,33 @@ function getRectangles(){
         var ymaxRect= 0;
         var xminRect = Number.MAX_VALUE;
         var yminRect=Number.MAX_VALUE;
+        var indexedPoly = polyCoords[i];
+        for (let j = 0; j < indexedPoly.length; j++) {
+            var item = indexedPoly[j];
 
-        for (let j = 0; j < polyCoords[i].length; j++) {
-            var item = polyCoords[i][j];
-            if(parseInt(item[0])>xmaxRect)
+          
+                if(parseFloat(item[0])<xminRect)
+              {
+                  xminRect = parseFloat(item[0]);
+              }
+              
+  
+                    if(parseFloat(item[1])<yminRect){
+                      yminRect=parseFloat(item[1]);
+                  }
+                  
+          
+            if(parseFloat(item[0])>xmaxRect)
             {
-                xmaxRect = item[0];
+                xmaxRect = parseFloat(item[0]);
             }
 
-            if(parseInt(item[1])>ymaxRect){
-                ymaxRect=item[1];
+            if(parseFloat(item[1])>ymaxRect){
+                ymaxRect= parseFloat(item[1]);
             }
             
         }
-        for(let j=0;j<polyCoords[i].length;j++){
-            var item = polyCoords[i][j];
-            if(parseInt(item[0])<xminRect)
-            {
-                xminRect = item[0];
-            }
-
-
-            if(parseInt(item[1])<yminRect){
-                yminRect=item[1];
-            }
-        }
-        var rect = new Rect(xminRect*ratio,yminRect*ratio,xmaxRect*ratio,ymaxRect*ratio);
+        var rect = new Rect(Math.round(xminRect*ratio),Math.round(yminRect*ratio),Math.round(xmaxRect*ratio),Math.round(ymaxRect*ratio));
         rects.push(rect);
     }
 }
@@ -387,13 +392,12 @@ function createSplicePoints(){
     var offsetreff = 0;
     var bionceki = 0;
     getRectangles();
-    var maxx = Math.max(...rects.map(a=>a.right));
-    var maxy = Math.max(...rects.map(a=>a.bottom));
+   // var maxx = Math.max(...rects.map(a=>a.right));
+   // var maxy = Math.max(...rects.map(a=>a.bottom));
     var prevoffsetref = 0;
     var offset = 10;
-
-    var cutpoints = [];
-    var spreadingpoints = [];
+    var spreadingpoints= [];
+    var cutpoints= [];
 
     for (let i = 0; i < rects.length*100;) {
         var firstrecs = rects.filter(a=>a.left <= offsetreff && a.left >= prevoffsetref);
@@ -458,15 +462,17 @@ function createSplicePoints(){
         }
         
     }
-
-   tempy.forEach(element => {
+    spreadingpoints = spreadingpoints.filter(item=>!tempy.includes(item));
+    cutpoints = cutpoints.filter(item=>!tempx.includes(item));
+ 
+   /*tempy.forEach(element => {
         var index = spreadingpoints.indexOf(element);
         spreadingpoints.splice(index,1);
     });
     tempx.forEach(element=>{
         var index = cutpoints.indexOf(element);
         cutpoints.splice(index,1);
-    }); 
+    }); */
 
     var rawspreadingpoints = spreadingpoints;
     var rawcutpoints = cutpoints;

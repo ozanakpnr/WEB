@@ -11,6 +11,8 @@ h1 {
     max-width: 90vw;
     height: 95vh;
 }
+
+
 .gridMain{
     margin: auto;
     display: grid;
@@ -179,3 +181,19 @@ font-weight: 600;
     transform: translateX(30px);
   }
   
+  @media (max-width: 768px) {
+.gridMain{
+  display: block;
+  margin: auto;
+}
+    .divLeft{
+      width: 100%;
+      height: 80%;
+      padding: 0;
+    }
+    .divRight{
+      width: 100%;
+      height: 80%;
+    }
+    }
+    

@@ -45,30 +45,28 @@ fileRatioSelector.addEventListener("change", function () {
 });
 // X DÖNDÜR
 cboxFlipX.addEventListener("change", () => {
-  if (cboxFlipX.checked) {
-    svg.style.transform = "scaleX(-1)";
-    svg.style.msTransform = "scaleX(-1)";
-    svg.style.OTransform = "scaleX(-1)";
-    svg.style.MozTransform = "scaleX(-1)";
-  } else {
-    svg.style.transform = "scaleX(1)";
-    svg.style.msTransform = "scaleX(1)";
-    svg.style.OTransform = "scaleX(1)";
-    svg.style.MozTransform = "scaleX(1)";
+
+  if (cboxFlipX.checked && !cboxFlipY.checked) {
+      svg.style.transform = "scaleX(-1) scaleY(1)";
+  } else if (!cboxFlipX.checked && cboxFlipY.checked) {
+      svg.style.transform = "scaleX(1) scaleY(-1)";
+  } else if (!cboxFlipX.checked && !cboxFlipY.checked) {
+      svg.style.transform = "scaleX(1) scaleY(1)";
+  } else if (cboxFlipX.checked && cboxFlipY.checked) {
+      svg.style.transform = "scaleX(-1) scaleY(-1)";
   }
 });
 //Y Döndür
 cboxFlipY.addEventListener("change", () => {
-  if (cboxFlipY.checked) {
-    svg.style.transform = "scaleY(-1)";
-    svg.style.msTransform = "scaleY(-1)";
-    svg.style.OTransform = "scaleY(-1)";
-    svg.style.MozTransform = "scaleY(-1)";
-  } else {
-    svg.style.transform = "scaleY(1)";
-    svg.style.msTransform = "scaleY(1)";
-    svg.style.OTransform = "scaleY(1)";
-    svg.style.MozTransform = "scaleY(1)";
+ 
+  if (cboxFlipX.checked && !cboxFlipY.checked) {
+      svg.style.transform = "scaleX(-1) scaleY(1)";
+  } else if (!cboxFlipX.checked && cboxFlipY.checked) {
+      svg.style.transform = "scaleX(1) scaleY(-1)";
+  } else if (!cboxFlipX.checked && !cboxFlipY.checked) {
+      svg.style.transform = "scaleX(1) scaleY(1)";
+  } else if (cboxFlipX.checked && cboxFlipY.checked) {
+      svg.style.transform = "scaleX(-1) scaleY(-1)";
   }
 });
 //ETİKET BİLGİSİ SWITCH
@@ -180,7 +178,7 @@ function DrawPolies(file) {
         //canvas.style.width=scaledX;
       }
     });
-    addRectangles();
+   
     for (let i = 0; i < polyCoords.length; i++) {
       const element = polyCoords[i];
       polyPoints = "";
@@ -223,6 +221,7 @@ function DrawPolies(file) {
       //ctx.closePath();
       //ctx.fill();
     }
+    addRectangles();
   };
 
   reader.onerror = function (evt) {
@@ -238,14 +237,14 @@ function addRectangles() {
         rect.setAttribute('x', spreadingPoints[i]*scaleRatio*10);
         rect.setAttribute('y', 0);
         rect.setAttribute('height', ymax*scaleRatio);
-        rect.setAttribute('width', 5);
+        rect.setAttribute('width', 2);
         rect.setAttribute('fill', '#59ADFF');
 
         var rect2 = document.createElementNS(svgns, 'rect');
         rect2.setAttribute('x', cutPoints[i]*scaleRatio*10);
         rect2.setAttribute('y', 0);
         rect2.setAttribute('height', ymax*scaleRatio);
-        rect2.setAttribute('width', 5);
+        rect2.setAttribute('width', 2);
         rect2.setAttribute('fill', '#FC4850');
         
         rect.style.zIndex = 12;
@@ -400,16 +399,17 @@ function createSplicePoints(){
         var firstrecs = rects.filter(a=>a.left <= offsetreff && a.left >= prevoffsetref);
         var maxwidthfirstrecs = Math.max(...firstrecs.map(a=>a.width));
         var rec = firstrecs.find(a=>a.width == maxwidthfirstrecs);
-        if(rec == null){
+        if(rec ==null){
             offsetreff += offset;
             prevoffsetref =0;
         }
         else{
-            var krec = new Rect(rec.right+offset,0,rec.right+offset+offset,5000);
-            var srecs = rects.filter(a=>intersectRect(a,krec));
-            if(srecs.length == 0){
+            var krec = new Rect(rec.right+offset,0,rec.right+offset,Number.MAX_VALUE);
+             var srecs = rects.filter(a=>intersectRect(a,krec));
+           if(srecs.length === 0){
                 offsetreff += offset;
             }
+          
             else{
                 var srecsminleft = Math.min(...srecs.map(a=>a.left));
                 var srec = srecs.find(a=>a.left == srecsminleft);
@@ -459,7 +459,7 @@ function createSplicePoints(){
         
     }
 
-    tempy.forEach(element => {
+   tempy.forEach(element => {
         var index = spreadingpoints.indexOf(element);
         spreadingpoints.splice(index,1);
     });
@@ -472,7 +472,7 @@ function createSplicePoints(){
     var rawcutpoints = cutpoints;
 
     for (let i = 0; i < spreadingpoints.length; i++) {
-        if(cutpoints[i]-spreadingpoints[i]<-2 || cutpoints[i]-spreadingpoints[i]>=700){
+        if(cutpoints[i]-spreadingpoints[i]<0 || cutpoints[i]-spreadingpoints[i]>=7000){
             serimatilacaklar.push(spreadingpoints[i]);
             kesimatilacaklar.push(cutpoints[i]);
         }
@@ -509,3 +509,5 @@ function intersectRect(r1, r2) {
              r2.top > r1.bottom ||
              r2.bottom < r1.top);
   }
+
+ 

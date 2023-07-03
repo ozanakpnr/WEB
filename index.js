@@ -19,7 +19,8 @@ const fileRatioSelector = document.getElementById("fileRatio");
 const cboxLabel = document.getElementById("cboxLabel");
 const cboxFlipX = document.getElementById("cboxFlipX");
 const cboxFlipY = document.getElementById("cboxFlipY");
-
+const btnLogIn = document.getElementById("btnLogIn");
+const formLogIn = document.getElementById("formLogIn");
 
 
 
@@ -29,14 +30,22 @@ let xmax = 0;
 let ymax = 0;
 let ratio = 0.1;
 let polyPoints = "";
-let lblPoints = "";
+let lblPoints = [];
 let fileName = "";
 let cutInfo = []; //CUT FILE SPLITTED
 let Coords = [];
 let polyCoords = [];
 let lblInfo = [];
+let lblCoords=[];
 let rects = [];
-
+//Login Button
+btnLogIn.addEventListener("click",function(){
+  if (formLogIn.style.visibility!="visible") {
+    formLogIn.style.visibility="visible";
+  }else{
+    formLogIn.style.visibility="hidden";
+  }
+});
 
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change", function () {
@@ -84,17 +93,24 @@ cboxLabel.addEventListener("change", function () {
 
 //PASTAL FARE TEKERLEĞİ İLE YAKINLAŞMA
 var scale = 1;
-subDiv.style.scale = 1;
-canvas.addEventListener("mousewheel", function (event) {
+
+canvas.addEventListener("wheel", function (event) {
   event.preventDefault();
-  var delta = Math.max(-1, Math.min(1, event.wheelDelta || -event.detail));
+  var delta = Math.max(-1, Math.min(1, event.deltaY || -event.detail));
   var mouseX = event.clientX - this.offsetLeft;
   var mouseY = event.clientY - this.offsetTop;
-  scale += delta * 0.1;
-  scale = Math.max(1, Math.min(4, scale));
+  var scaleFactor = 0.1;
+  if (delta > 0) {
+    scale -= scaleFactor;
+  } else {
+    scale += scaleFactor;
+  }
+  //scale += delta * 0.1;
+  scale = Math.max(0.5, Math.min(4, scale));
   var offsetX = (mouseX - this.clientWidth / 2) * (scale - 1);
   var offsetY = (mouseY - this.clientHeight / 2) * (scale - 1);
-  subDiv.style.transformOrigin = mouseX + "px " + mouseY + "px";
+  var transformOrigin = offsetX + "px " + offsetY + "px";
+  subDiv.style.transformOrigin = transformOrigin;
   subDiv.style.transform = "scale(" + scale + ")";
 });
 
@@ -113,7 +129,7 @@ function SelectFile() {
   xmax = 0;
   ymax = 0;
   polyPoints = "";
-  lblPoints = "";
+  lblPoints = [];
 fileName = "";
   cutInfo = [];
   Coords = [];
@@ -121,7 +137,7 @@ fileName = "";
   polyCoords = [];
   lblInfo = [];
   rects = [];
-
+subDiv.style.transform="scale(1)";
 
   //SANAL INTPUT OLUŞTUR VE ONCHANGE EVENTİ İLE DOSYAYI YAKALA
   let input = document.createElement("input");
@@ -207,14 +223,16 @@ function DrawPolies(file) {
         }
       });
       //ETIKET BİLGİSİ VAR İSE KARELERI OLUŞTUR
-      if (lblCoords.length != 0) {
+      if (lblInfo.length != 0) {
         const p = pLabel.cloneNode(true);
         subDiv.appendChild(p);
         p.classList.add("lblElement");
         p.innerHTML = "<pre>" + lblInfo[i].replace(/ /g, "\n") + "</pre>";
         p.style.zIndex = 2;
-        p.style.top = lblCoords[i][1] * scaleRatio + "px";
-        p.style.left = lblCoords[i][0] * scaleRatio + "px";
+       // p.style.top = lblCoords[i][1] * scaleRatio + "px";
+       // p.style.left = lblCoords[i][0] * scaleRatio + "px";
+       p.style.top = lblCoords[i][1]*scaleRatio+"px";
+       p.style.left=lblCoords[i][0]*scaleRatio+"px";
         if (cboxLabel.checked) {
           p.style.display = "inline";
         } else {
@@ -238,14 +256,14 @@ function addRectangles() {
     const scaleRatio = svg.height.animVal.value / ymax;
     for (let i = 0; i <spreadingPoints.length; i++) {
         var rect = document.createElementNS(svgns, 'rect');
-        rect.setAttribute('x', spreadingPoints[i]*scaleRatio*10);
+        rect.setAttribute('x', spreadingPoints[i]*scaleRatio/ratio);
         rect.setAttribute('y', 0);
         rect.setAttribute('height', ymax*scaleRatio);
         rect.setAttribute('width', 2);
         rect.setAttribute('fill', '#59ADFF');
 
         var rect2 = document.createElementNS(svgns, 'rect');
-        rect2.setAttribute('x', cutPoints[i]*scaleRatio*10);
+        rect2.setAttribute('x', cutPoints[i]*scaleRatio/ratio);
         rect2.setAttribute('y', 0);
         rect2.setAttribute('height', ymax*scaleRatio);
         rect2.setAttribute('width', 2);
@@ -332,19 +350,21 @@ function ProcessCutFile() {
           }
         }
       }
+
       polyCoords.push(Coords);
+      lblCoords.push(GetMiddlePoint(Coords));
       Coords = [];
     }
 
     //ETIKET BILGISI VAR
     if (cutInfo[i].includes("M31")) {
       lblInfo.push(cutInfo[i + 1]);
-      if (cutInfo[i].includes("X") && cutInfo[i].includes("Y")) {
+      /*if (cutInfo[i].includes("X") && cutInfo[i].includes("Y")) {
         let lblx = cutInfo[i].split("Y")[0].split("X")[1];
         let lbly = cutInfo[i].split("Y")[1].split("M")[0];
         let lblCoord = [lblx, lbly];
         lblCoords.push(lblCoord);
-      }
+      }*/
     }
   }
 }
@@ -381,7 +401,7 @@ function getRectangles(){
             }
             
         }
-        var rect = new Rect(Math.round(xminRect*ratio),Math.round(yminRect*ratio),Math.round(xmaxRect*ratio),Math.round(ymaxRect*ratio));
+        var rect = new Rect(xminRect*ratio,yminRect*ratio,xmaxRect*ratio,ymaxRect*ratio);
         rects.push(rect);
     }
 }
@@ -515,5 +535,15 @@ function intersectRect(r1, r2) {
              r2.top > r1.bottom ||
              r2.bottom < r1.top);
   }
-
+function GetMiddlePoint(Coords){
+  var sumX = 0;
+  var sumY= 0;
+  for (let i = 0; i < Coords.length; i++) {
+    sumX+=Number(Coords[i][0]);
+    sumY += Number(Coords[i][1]);
+  }
+var xStart = sumX/Coords.length;
+var yStart = sumY/Coords.length;
+return [xStart,yStart]
+}
  

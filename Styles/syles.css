@@ -1,6 +1,7 @@
 
 body{
   background-color: #2b3035;
+
 }
 .container{
     display: block;
@@ -12,7 +13,7 @@ body{
 .gridMain{
     margin: auto;
     display: grid;
-    height: 100%;
+height: 100%;
     grid-template-columns: 1fr 3fr;
     column-gap: 20px;
 }
@@ -55,14 +56,14 @@ height: 100%;
 }
 
 #canvasDiv{
-    position: relative;
+   
     max-width: 95%;
    
     box-shadow: 3px 3px 3px 2px black;
     border-color: darkcyan; 
    border-radius: 10px;
     padding: 5px;
-    display: block;
+   
  overflow: auto;
 height: 100%;
 background: linear-gradient(315deg, #2e3339, #272b30);
@@ -83,12 +84,12 @@ box-shadow:  -28px -28px 68px #111315,
     
     grid-template-rows: 10% 80%;
     max-width:100%;
-   
+ 
 
 
 }
 #subDiv{
-    position: relative;
+
     transition:  0.3s;
     width: 100%;
     height: 100%;
@@ -178,11 +179,16 @@ font-weight: 600;
     transform: translateX(30px);
   }
   
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
 .gridMain{
-  display: block;
+  display: flex;
+  flex-direction: column;
+
   margin: auto;
 }
+#canvasDiv{
+  margin-top: 20px;
+  min-height: 280px;}
     .divLeft{
       width: 100%;
       height: 80%;
@@ -190,8 +196,10 @@ font-weight: 600;
     }
     .divRight{
       width: 100%;
-      height: 80%;
+      height: 100%;
     }
+    h5{font-size: 0.8rem;}
+  
     }
     
     @media (max-width: 990px) {

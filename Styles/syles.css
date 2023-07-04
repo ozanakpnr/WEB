@@ -194,7 +194,16 @@ font-weight: 600;
     }
     }
     
-
+    @media (max-width: 990px) {
+ .form{
+    position: absolute;
+  align-items: center;
+  justify-content: center;
+  left: 50%; 
+  width: 90%;
+  transform: translateX(-50%); 
+ }
+          }
     /* ---- LOGIN FORM ----- */
  
     .form {
@@ -215,7 +224,7 @@ font-weight: 600;
   visibility: hidden;
 }
 
-
+ 
 
 #heading {
   text-align: center;

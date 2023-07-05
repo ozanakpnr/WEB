@@ -1,0 +1,61 @@
+<%- include("partials/header"); -%>
+<div class="gridMain">
+       
+    <div class="divLeft">
+        <!--<img src="Images/ozbilim-splash.png" style="position: relative; margin: 0;  width: 75%; ">-->
+        <button class="btn btn-light" id="btnSelect" onclick="SelectFile()" type="button">Select File</button>
+        <h5 id="cboxFileRatio" style="font-size: 1.2rem; margin:auto;">File Ratio:</h5>
+        <select class="form-select" id="fileRatio">
+            <option value="0.1">0.1</option>
+            <option value="0.254">0.254</option>
+            <option value="0.01">0.01</option>
+            <option value="0.0254">0.0254</option>
+        </select>
+   
+       
+   <div  class="toggle-container">
+    <p class="m-auto me-3 mt-2 mb-2 ms-2" style="font-family: sans-serif; ">Etiket Bilgisi</p>
+       <label class="toggle-switch" >
+       <input id="cboxLabel" type="checkbox">
+       <span class="toggle-slider"></span>
+    </label>
+</div>
+<div  class="toggle-container">
+    <p class="m-auto me-3 mt-2 mb-2 ms-2" style="font-family: sans-serif; ">X Döndür</p>
+       <label class="toggle-switch" >
+       <input id="cboxFlipX" type="checkbox">
+       <span class="toggle-slider"></span>
+    </label>
+</div>
+<div  class="toggle-container">
+    <p class="m-auto me-3 mt-2 mb-2 ms-2" style="font-family: sans-serif; ">Y Döndür</p>
+       <label class="toggle-switch" >
+       <input id="cboxFlipY" type="checkbox">
+       <span class="toggle-slider"></span>
+    </label>
+</div>
+   
+    
+    </div>
+    <div class="divRight">
+    <div class="grid-container">
+        <h5 class="ms-0" id="markerName">Marker: </h5>
+        <h5 id="markerLength">Length: </h5>
+        <h5 id="markerWidth">width: </h5>
+     
+    </div>
+    <div id="canvasDiv">
+        <div id="subDiv">
+        <!--<canvas id="canvasDrawing">
+        </canvas> -->
+        <svg id="svgDrawing">
+          
+        </svg>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+
+<%- include("partials/footer"); -%>

@@ -1,16 +1,30 @@
+//jshint esversion:6
+
 const express = require("express");
 const path = require("path");
-const app = express();
+const bodyParser = require("body-parser");
+const ejs = require("ejs");
+const _ = require("lodash");
+const req = require("express/lib/request");
+const res = require("express/lib/response");
 
-app.use(express.urlencoded({extended:true}));
+const app = express();
+app.set("view engine","ejs");
+
+app.use(bodyParser.urlencoded({extended:true}));
 //middleware
-app.use(express.static(__dirname+"/public"));
-app.use(express.json());
+app.use(express.static("public"));
+//app.use(express.json());
 
 app.get("/",(req,res)=>{
-    res.sendFile(__dirname+"/public/index.html");
+    res.render("splicer");
 });
-
+app.get("/markers",(req,res)=>{
+    res.render("markers");
+})
+app.get("/about",(req,res)=>{
+    res.render("about");
+})
 let port = process.env.PORT;
 if (port==null||port=="") {
     port=3000;

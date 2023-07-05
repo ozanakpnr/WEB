@@ -1,0 +1,17 @@
+{
+  "name": "splicer",
+  "version": "1.0.0",
+  "description": "splicer project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ozanakpnr",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "request": "^2.88.2"
+  }
+}

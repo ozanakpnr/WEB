@@ -25,6 +25,7 @@ const divLoginBg = document.getElementById("divLoginBg");
 const btnToggleLogin = document.getElementById("btnToggleLogin");
 const divLogIn = document.getElementById("divLogIn");
 const divSignUp = document.getElementById("divSignUp");
+const navbarToggle = document.getElementById("navbarToggle");
 //VARIABLES
 let filecontent = "";
 let xmax = 0;
@@ -47,7 +48,12 @@ btnLogIn.addEventListener("click",function(){
     formLogIn.style.visibility="hidden";
   }
 });
-
+//close loginpopup when navbartoggle clicked
+navbarToggle.addEventListener("click",()=>{
+  if (navbarToggle.ariaExpanded==="false"&& formLogIn.style.visibility==="visible") {
+    formLogIn.style.visibility="hidden";
+  }
+});
 //login switch slide effect
 btnToggleLogin.addEventListener("click",()=>{
   const computedStyle = getComputedStyle(divLoginBg);

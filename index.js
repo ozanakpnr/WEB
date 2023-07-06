@@ -25,7 +25,7 @@ const divLoginBg = document.getElementById("divLoginBg");
 const btnToggleLogin = document.getElementById("btnToggleLogin");
 const divLogIn = document.getElementById("divLogIn");
 const divSignUp = document.getElementById("divSignUp");
-
+const navbarToggle = document.getElementById("navbarToggle");
 
 //VARIABLES
 let filecontent = "";
@@ -46,6 +46,13 @@ btnLogIn.addEventListener("click",function(){
   if (formLogIn.style.visibility!="visible") {
     formLogIn.style.visibility="visible";
   }else{
+    formLogIn.style.visibility="hidden";
+  }
+});
+
+//close loginpopup when navbartoggle clicked
+navbarToggle.addEventListener("click",()=>{
+  if (navbarToggle.ariaExpanded==="false"&& formLogIn.style.visibility==="visible") {
     formLogIn.style.visibility="hidden";
   }
 });

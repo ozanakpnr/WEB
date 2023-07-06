@@ -21,7 +21,10 @@ const cboxFlipX = document.getElementById("cboxFlipX");
 const cboxFlipY = document.getElementById("cboxFlipY");
 const btnLogIn = document.getElementById("btnLogIn");
 const formLogIn = document.getElementById("formLogIn");
-
+const divLoginBg = document.getElementById("divLoginBg");
+const btnToggleLogin = document.getElementById("btnToggleLogin");
+const divLogIn = document.getElementById("divLogIn");
+const divSignUp = document.getElementById("divSignUp");
 
 
 //VARIABLES
@@ -46,7 +49,25 @@ btnLogIn.addEventListener("click",function(){
     formLogIn.style.visibility="hidden";
   }
 });
+//login switch slide effect
+btnToggleLogin.addEventListener("click",()=>{
+  const computedStyle = getComputedStyle(divLoginBg);
+  const leftValue = computedStyle.getPropertyValue("left");
+  const rightValue = computedStyle.getPropertyValue("right");
+  if (leftValue === "0px") {
+    divLoginBg.style.right = "0px";
+    divLoginBg.style.left = "";
+    divSignUp.style.display = "block";
+    divLogIn.style.display = "none";
 
+  } else if (rightValue === "0px") {
+    divLoginBg.style.left = "0px";
+    divLoginBg.style.right = "";
+    divSignUp.style.display = "none";
+    divLogIn.style.display = "block";
+
+  }
+});
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change", function () {
   ratio = fileRatioSelector.value;

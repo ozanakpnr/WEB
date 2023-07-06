@@ -5,29 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="Styles/syles.css">
+    <link rel="stylesheet" href="/Styles/syles.css">
     <title>Document</title>
    
     <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark ms-md-5 me-md-5 " data-bs-theme="dark"  >
         <div class="container-fluid mt-2 "  >
-            <img class="navbar-brand me-lg-5 ms-0" src="Images/ozbilim-splash.png" style="position: relative; margin: auto;  width: 200px; ">
+            <img class="navbar-brand me-lg-5 ms-0" src="/images/ozbilim-splash.png" style="position: relative; margin: auto;  width: 200px; ">
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse justify-content-end me-lg-2" id="navbarNavDropdown">
             <ul class="navbar-nav text-center">
               <li class="nav-item me-lg-3">
-                <a class="nav-link active" aria-current="page" href="#">Splicer</a>
+                <a class="nav-link active" aria-current="page" href="/">Splicer</a>
               </li>
               <li class="nav-item me-lg-3">
-                <a class="nav-link" href="#">Markers</a>
+                <a class="nav-link" href="/markers">Markers</a>
               </li>
               <li class="nav-item me-lg-3">
-                <a class="nav-link" href="#">About Us</a>
+                <a class="nav-link" href="/about">About Us</a>
               </li>
              
               <li class="nav-item">
-                <button id="btnLogIn" class="btn btn-dark btn-outline-info" type="button" aria-pressed="false" autocomplete="off" data-bs-toggle="button">Log In / Sing Up</button>
+                <button id="btnLogIn" class="btn btn-dark btn-outline-info" type="button" aria-pressed="false" autocomplete="off" data-bs-toggle="button">Log In / Sign Up</button>
               </li>
             </ul>
           </div>
@@ -37,27 +37,70 @@
 <body >
     
     <form id="formLogIn" class="form">
-        <p id="heading">Login</p>
-        <div class="field">
-        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
-        </svg>
-          <input autocomplete="off" placeholder="Username" class="input-field" type="text">
+      <div style=" overflow: hidden; position: relative; margin-top: 10px; margin-bottom: 20px;">
+        <div id="divLoginBg" class="position-absolute w-50 h-100 bg-primary opacity-25"></div>
+        <button id="btnToggleLogin" class=" bg-transparent  text-light p-2 "  type="button">Log In  -  SignUp</button>
+      </div>
+      <div style="position: relative;">
+        <div id="divLogIn">
+          <div class="field">
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
+          </svg>
+            <input autocomplete="off" placeholder="E-mail" class="input-field" type="email">
+          </div>
+          <div class="field">
+          <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+          </svg>
+            <input placeholder="Password" class="input-field" type="password">
+          </div>
+          <div class="btn">
+          <button class="button1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+          <button class="button3">Forgot Password</button>
+          </div>
+        
         </div>
-        <div class="field">
-        <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-        <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
-        </svg>
-          <input placeholder="Password" class="input-field" type="password">
+        <div id="divSignUp">
+          <div class="field">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
+            </svg>
+              <input autocomplete="off" placeholder="Name" class="input-field" type="text">
+            </div>
+            <div class="field">
+            <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+            </svg>
+              <input placeholder="Last Name" class="input-field" type="text">
+            </div>
+            <div class="field">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M13.106 7.222c0-2.967-2.249-5.032-5.482-5.032-3.35 0-5.646 2.318-5.646 5.702 0 3.493 2.235 5.708 5.762 5.708.862 0 1.689-.123 2.304-.335v-.862c-.43.199-1.354.328-2.29.328-2.926 0-4.813-1.88-4.813-4.798 0-2.844 1.921-4.881 4.594-4.881 2.735 0 4.608 1.688 4.608 4.156 0 1.682-.554 2.769-1.416 2.769-.492 0-.772-.28-.772-.76V5.206H8.923v.834h-.11c-.266-.595-.881-.964-1.6-.964-1.4 0-2.378 1.162-2.378 2.823 0 1.737.957 2.906 2.379 2.906.8 0 1.415-.39 1.709-1.087h.11c.081.67.703 1.148 1.503 1.148 1.572 0 2.57-1.415 2.57-3.643zm-7.177.704c0-1.197.54-1.907 1.456-1.907.93 0 1.524.738 1.524 1.907S8.308 9.84 7.371 9.84c-.895 0-1.442-.725-1.442-1.914z"></path>
+              </svg>
+                <input autocomplete="off" placeholder="E-mail" class="input-field" type="email">
+              </div>
+              <div class="field">
+              <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+              </svg>
+                <input placeholder="Password" class="input-field" type="password">
+              </div>
+                <div class="field">
+                <svg class="input-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"></path>
+                </svg>
+                  <input placeholder="Retype Password" class="input-field" type="password">
+                </div>
+          <div class="btn">
+          <button class="button2">Sign Up</button>
         </div>
-        <div class="btn">
-        <button class="button1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Login&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
-        <button class="button2">Sign Up</button>
         </div>
-        <button class="button3">Forgot Password</button>
+      </div>
+      
+      
     </form>
-
-<div class="container">
+    <div class="container">
    
     <div class="gridMain">
        

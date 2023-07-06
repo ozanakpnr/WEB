@@ -21,9 +21,10 @@ const cboxFlipX = document.getElementById("cboxFlipX");
 const cboxFlipY = document.getElementById("cboxFlipY");
 const btnLogIn = document.getElementById("btnLogIn");
 const formLogIn = document.getElementById("formLogIn");
-
-
-
+const divLoginBg = document.getElementById("divLoginBg");
+const btnToggleLogin = document.getElementById("btnToggleLogin");
+const divLogIn = document.getElementById("divLogIn");
+const divSignUp = document.getElementById("divSignUp");
 //VARIABLES
 let filecontent = "";
 let xmax = 0;
@@ -46,6 +47,27 @@ btnLogIn.addEventListener("click",function(){
     formLogIn.style.visibility="hidden";
   }
 });
+
+//login switch slide effect
+btnToggleLogin.addEventListener("click",()=>{
+  const computedStyle = getComputedStyle(divLoginBg);
+  const leftValue = computedStyle.getPropertyValue("left");
+  const rightValue = computedStyle.getPropertyValue("right");
+  if (leftValue === "0px") {
+    divLoginBg.style.right = "0px";
+    divLoginBg.style.left = "";
+    divSignUp.style.display = "block";
+    divLogIn.style.display = "none";
+
+  } else if (rightValue === "0px") {
+    divLoginBg.style.left = "0px";
+    divLoginBg.style.right = "";
+    divSignUp.style.display = "none";
+    divLogIn.style.display = "block";
+
+  }
+});
+
 
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change", function () {
@@ -340,7 +362,10 @@ function ProcessCutFile() {
               let x = cutInfo[j].split("Y")[0].split("X")[1];
               let y = cutInfo[j].split("Y")[1];
               let actCoord = [x, y];
-              Coords.push(actCoord);
+              
+                Coords.push(actCoord);
+              
+            
             }
 
             if (cutInfo[j] === "M0") {

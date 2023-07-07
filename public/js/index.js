@@ -368,6 +368,9 @@ function ProcessCutFile() {
             ) {
               let x = cutInfo[j].split("Y")[0].split("X")[1];
               let y = cutInfo[j].split("Y")[1];
+              if (y.includes("-")) {
+                y=y.split("-")[1];
+              }
               let actCoord = [x, y];
               
                 Coords.push(actCoord);

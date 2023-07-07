@@ -181,7 +181,7 @@ font-weight: 600;
     }
     
     @media (max-width: 990px) {
- .form{
+ .formDiv{
     position: absolute;
   align-items: center;
   justify-content: center;
@@ -192,9 +192,8 @@ font-weight: 600;
           }
     /* ---- LOGIN FORM ----- */
  
-    .form {
+    .formDiv {
       overflow: hidden;
-  display: flex;
   position: absolute;
   right: 0;
   z-index: 10;
@@ -207,8 +206,7 @@ font-weight: 600;
   padding-bottom: 0.4em;
   background-color: #171717;
   border-radius: 25px;
-
-  visibility: hidden;
+ display: none;
 }
 
  
@@ -250,7 +248,7 @@ font-weight: 600;
   color: #d3d3d3;
 }
 
-.form .btn {
+.formDiv .btn {
   display: flex;
   justify-content: center;
   align-items: center;

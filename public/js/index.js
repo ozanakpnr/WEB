@@ -20,7 +20,7 @@ const cboxLabel = document.getElementById("cboxLabel");
 const cboxFlipX = document.getElementById("cboxFlipX");
 const cboxFlipY = document.getElementById("cboxFlipY");
 const btnLogIn = document.getElementById("btnLogIn");
-const formLogIn = document.getElementById("formLogIn");
+const formDiv = document.getElementById("formDiv");
 const divLoginBg = document.getElementById("divLoginBg");
 const btnToggleLogin = document.getElementById("btnToggleLogin");
 const divLogIn = document.getElementById("divLogIn");
@@ -42,16 +42,17 @@ let lblCoords=[];
 let rects = [];
 //Login Button
 btnLogIn.addEventListener("click",function(){
-  if (formLogIn.style.visibility!="visible") {
-    formLogIn.style.visibility="visible";
-  }else{
-    formLogIn.style.visibility="hidden";
+  if (formDiv.style.display==="flex") {
+    formDiv.style.display="none";
+  }
+ else{
+  formDiv.style.display="flex";
   }
 });
 //close loginpopup when navbartoggle clicked
 navbarToggle.addEventListener("click",()=>{
-  if (navbarToggle.ariaExpanded==="false"&& formLogIn.style.visibility==="visible") {
-    formLogIn.style.visibility="hidden";
+  if (navbarToggle.ariaExpanded==="false"&& formDiv.style.display==="flex") {
+    formDiv.style.display="none";
   }
 });
 //login switch slide effect

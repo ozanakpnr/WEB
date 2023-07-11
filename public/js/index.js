@@ -19,13 +19,7 @@ const fileRatioSelector = document.getElementById("fileRatio");
 const cboxLabel = document.getElementById("cboxLabel");
 const cboxFlipX = document.getElementById("cboxFlipX");
 const cboxFlipY = document.getElementById("cboxFlipY");
-const btnLogIn = document.getElementById("btnLogIn");
-const formDiv = document.getElementById("formDiv");
-const divLoginBg = document.getElementById("divLoginBg");
-const btnToggleLogin = document.getElementById("btnToggleLogin");
-const divLogIn = document.getElementById("divLogIn");
-const divSignUp = document.getElementById("divSignUp");
-const navbarToggle = document.getElementById("navbarToggle");
+const btnLogOut = document.getElementById("btnLogOut");
 //VARIABLES
 let filecontent = "";
 let xmax = 0;
@@ -40,41 +34,11 @@ let polyCoords = [];
 let lblInfo = [];
 let lblCoords=[];
 let rects = [];
-//Login Button
-btnLogIn.addEventListener("click",function(){
-  if (formDiv.style.display==="flex") {
-    formDiv.style.display="none";
-  }
- else{
-  formDiv.style.display="flex";
-  }
-});
-//close loginpopup when navbartoggle clicked
-navbarToggle.addEventListener("click",()=>{
-  if (navbarToggle.ariaExpanded==="false"&& formDiv.style.display==="flex") {
-    formDiv.style.display="none";
-  }
-});
-//login switch slide effect
-btnToggleLogin.addEventListener("click",()=>{
-  const computedStyle = getComputedStyle(divLoginBg);
-  const leftValue = computedStyle.getPropertyValue("left");
-  const rightValue = computedStyle.getPropertyValue("right");
-  if (leftValue === "0px") {
-    divLoginBg.style.right = "0px";
-    divLoginBg.style.left = "";
-    divSignUp.style.display = "block";
-    divLogIn.style.display = "none";
 
-  } else if (rightValue === "0px") {
-    divLoginBg.style.left = "0px";
-    divLoginBg.style.right = "";
-    divSignUp.style.display = "none";
-    divLogIn.style.display = "block";
+//Log Out Function
+/*btnLogOut.addEventListener("click",function(){
 
-  }
-});
-
+});*/
 
 //DOSYA ORANI DEĞİŞTİ BİLGİSİ
 fileRatioSelector.addEventListener("change", function () {

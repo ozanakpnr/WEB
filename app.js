@@ -73,7 +73,20 @@ app.post("/register",(req,res)=>{
 
 //login
 function loginUser(email, password){
-    
+    const userLoginInfo ={
+        email:req.body.emailLogIn,
+        pass:req.body.passLogIn
+    }
+    const SelectQuery = "SELECT * FROM users ORDER BY Id";
+    sql.query(connectionString,SelectQuery,function(err,result){
+        if (err) {
+            console.log(err);
+        }else{
+           if (userLoginInfo.emailLogIn) {
+            
+           }
+        }
+    })
 }
 
 app.post("/login",(req,res)=>{
@@ -93,6 +106,9 @@ res.redirect("/");
 app.get("/",(req,res)=>{
     res.render("splicer");
 });
+app.get("/login",(req,res)=>{
+    res.render("login");
+})
 app.get("/markers",(req,res)=>{
     res.render("markers");
 })

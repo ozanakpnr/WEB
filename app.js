@@ -72,20 +72,26 @@ app.post("/register",(req,res)=>{
 })
 
 //login
-function loginUser(email, password){
-    const userLoginInfo ={
-        email:req.body.emailLogIn,
-        pass:req.body.passLogIn
-    }
-    const SelectQuery = "SELECT * FROM users ORDER BY Id";
-    sql.query(connectionString,SelectQuery,function(err,result){
+function loginUser(email, password,res){
+    
+    const SelectQuery = "SELECT * FROM users WHERE email ='"+email+"' AND password ='"+password+"'";
+   
+    sql.query(connectionString,SelectQuery,(err,result)=>{
         if (err) {
             console.log(err);
+           
+                return;
         }else{
-           if (userLoginInfo.emailLogIn) {
-            
-           }
+ 
+         if (result.length>0) {
+            res.redirect("/");
+            console.log("Login Successful");
+          }else{
+            console.log("Invalid email or password");
+          }
+
         }
+      
     })
 }
 
@@ -94,8 +100,9 @@ app.post("/login",(req,res)=>{
         email:req.body.emailLogIn,
         pass:req.body.passLogIn
     };
-loginUser(login.email,login.password);
-res.redirect("/");
+    
+loginUser(login.email,login.pass,res);
+
 })
 
 

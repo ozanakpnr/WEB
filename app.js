@@ -5,15 +5,18 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 const _ = require("lodash");
-const req = require("express/lib/request");
-const res = require("express/lib/response");
-
+//const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs");
+let userLoggedIn = false;
+var reqLogin ;
 const app = express();
+const errorMessage = "";
+//dotenv.config({path:"./.env"})
 app.set("view engine","ejs");
 
 app.use(bodyParser.urlencoded({extended:true}));
 //middleware
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname+"/public")));
 //app.use(express.json());
 
 
@@ -86,16 +89,67 @@ function loginUser(email, password,res){
          if (result.length>0) {
             res.redirect("/");
             console.log("Login Successful");
+            userLoggedIn=true;
           }else{
             console.log("Invalid email or password");
+            userLoggedIn=false;
+          var newerr="Wrong E-mail or Password!";
+           res.render("login",{errorMessage:newerr});
+            /*return res.status(400).json({
+                message:"Wrong E-mail or Password!"
+            })*/
+        
           }
 
         }
       
     })
 }
+app.get("/",(req,res)=>{
+    if(userLoggedIn===true){
+        res.render("splicer");
+    }else{
+    res.redirect("/login");
+    }
+    
+});
+app.get("/login",(req,res)=>{
+    reqLogin=req;
+    if(userLoggedIn===true){
+        res.redirect("/");
+    }else{
+    res.render("login",{errorMessage});
+    }
+})
+app.get("/logout",(req,res)=>{
+    userLoggedIn=false;
+    res.redirect("/login");
+})
+app.get("/markers",(req,res)=>{
+    if(userLoggedIn===true){
+        res.render("markers");
+    }else{
+    res.redirect("/login");
+    }
+})
+app.get("/about",(req,res)=>{
+    if(userLoggedIn===true){
+        res.render("about");
+    }else{
+    res.redirect("/login");
+    }
+})
+app.get("/:customRoute",(req,res)=>{
+    const requestedRoute = req.params.customRoute;
+    if(requestedRoute!="login"||requestedRoute!="markers"||requestedRoute!="logout"||requestedRoute!="splicer"||requestedRoute!="about"){
+        res.redirect("/");
+    }
+})
+
+
 
 app.post("/login",(req,res)=>{
+    
     const login={
         email:req.body.emailLogIn,
         pass:req.body.passLogIn
@@ -110,18 +164,7 @@ loginUser(login.email,login.pass,res);
 
 
 
-app.get("/",(req,res)=>{
-    res.render("splicer");
-});
-app.get("/login",(req,res)=>{
-    res.render("login");
-})
-app.get("/markers",(req,res)=>{
-    res.render("markers");
-})
-app.get("/about",(req,res)=>{
-    res.render("about");
-})
+
 let port = process.env.PORT;
 if (port==null||port=="") {
     port=3000;

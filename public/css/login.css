@@ -149,3 +149,6 @@ transition: 1s;
     top: 0;
     display: none;
    }
+   .error-message{
+    color: red;
+   }
